@@ -1,26 +1,36 @@
 import React, { Component } from 'react'
 
+const defaultState = {
+  playing: null,
+}
+
 class Player extends Component {
+  state = defaultState
   audioElements = {}
 
-  componentDidMount() {
-    this.stopAll()
+  createAudioRef = (key, element) => {
+    this.audioElements[key] = element
   }
 
-  createAudioRef = (id, element) => {
-    this.audioElements[id] = element
+  isPlaying = () => {
+    const { playing } = this.state
+    return playing
   }
 
-  stopAll = () => {
+  pause = () => {
     Object.keys(this.audioElements).forEach(id =>
       this.audioElements[id].pause()
     )
   }
 
   play = key => {
-    this.stopAll()
+    const { selectedKey } = this.props
 
-    this.audioElements[key].currentTime = 0
+    this.pause()
+
+    if (selectedKey !== key) {
+      this.audioElements[key].currentTime = 0
+    }
     this.audioElements[key].play()
   }
 
@@ -29,20 +39,50 @@ class Player extends Component {
     return audioFiles.find(track => track.key === key)
   }
 
+  onAudioEvent = (key, event) => {
+    switch (event.type) {
+      case 'playing':
+      case 'play':
+        this.setState({
+          playing: true,
+        })
+        break
+      case 'pause':
+        this.setState({
+          playing: false,
+        })
+        break
+      case 'ended':
+        this.setState({
+          playing: false,
+        })
+        break
+      default:
+        break
+    }
+  }
+
   render() {
-    const { audioFiles = [], selectedKey, children } = this.props
+    const { audioFiles = [], children } = this.props
 
     return (
       <>
-        {children(this.play, this.isValidAudioFileKey)}
+        {children({
+          play: this.play,
+          pause: this.pause,
+          isValidAudioFileKey: this.isValidAudioFileKey,
+          isPlaying: this.isPlaying,
+        })}
 
         {audioFiles.map(audioFile => (
           <audio
             key={audioFile.key}
             ref={element => this.createAudioRef(audioFile.key, element)}
             src={audioFile.src}
-            controlsList="nodownload"
-            controls={selectedKey === audioFile.key}
+            onPlay={event => this.onAudioEvent(audioFile.key, event)}
+            onPlaying={event => this.onAudioEvent(audioFile.key, event)}
+            onPause={event => this.onAudioEvent(audioFile.key, event)}
+            onEnded={event => this.onAudioEvent(audioFile.key, event)}
           />
         ))}
       </>

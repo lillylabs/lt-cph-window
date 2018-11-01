@@ -27,32 +27,48 @@ const style = {
     borderRadius: 5,
     marginLeft: '0.3em',
   },
+  buttonInvalid: {
+    color: 'gray',
+  },
 }
 
 const defaultState = {
   input: '',
 }
 
-class SelectOne extends Component {
+class PlayerControls extends Component {
   state = defaultState
   inputElement = React.createRef()
+  buttonElement = React.createRef()
 
   componentDidMount() {
-    this.focusOnInput()
+    const { selectedKey } = this.props
+
+    if (selectedKey) {
+      this.setState({
+        input: selectedKey,
+      })
+      this.focusOnButton()
+    } else {
+      this.focusOnInput()
+    }
   }
 
   onSubmit = event => {
     event.preventDefault()
     const { input } = this.state
-    const { play, navigate } = this.props
+    const { play, pause, navigate, selectedKey } = this.props
 
-    if (this.isValidInput(input)) {
+    if (this.isPlaying() && input === selectedKey) {
+      pause()
+    } else if (this.isValidInput(input)) {
       play(input)
-      navigate(input)
+      if (input !== selectedKey) {
+        navigate(input)
+      }
     } else {
       this.focusOnInput()
     }
-    // Navigate to audio file page
   }
 
   onChange = event => {
@@ -63,22 +79,37 @@ class SelectOne extends Component {
 
   focusOnInput = () => {
     this.inputElement.current.focus()
-    // this.inputElement.current.select()
+    this.inputElement.current.select()
+  }
+
+  focusOnButton = () => {
+    this.buttonElement.current.focus()
   }
 
   isValidInput = () => {
     const { input } = this.state
-    const { isValidFileKey } = this.props
+    const { isValidAudioFileKey } = this.props
 
-    return isValidFileKey(input)
+    return isValidAudioFileKey(input)
   }
 
   isPlaying = () => {
-    const { playing } = this.state
-    return playing
+    const { isPlaying } = this.props
+    return isPlaying()
   }
 
   render() {
+    const playIcon = '&#9658'
+    const stopIcon = '&#9724'
+
+    const buttonIcon = this.isPlaying() ? stopIcon : playIcon
+    const buttonStyle = this.isValidInput()
+      ? style.button
+      : {
+          ...style.button,
+          ...style.buttonInvalid,
+        }
+
     return (
       <form style={style.root} onSubmit={this.onSubmit}>
         <input
@@ -86,15 +117,21 @@ class SelectOne extends Component {
           ref={this.inputElement}
           pattern="[0-9]*"
           type="text"
+          disabled={this.isPlaying()}
           value={this.state.input}
           onChange={this.onChange}
         />
-        <button style={style.button} type="submit">
-          &#9658;
-        </button>
+        <button
+          style={buttonStyle}
+          ref={this.buttonElement}
+          type="submit"
+          dangerouslySetInnerHTML={{
+            __html: buttonIcon,
+          }}
+        />
       </form>
     )
   }
 }
 
-export default SelectOne
+export default PlayerControls
