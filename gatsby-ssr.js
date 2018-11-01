@@ -14,9 +14,8 @@ import Player from './src/components/Player'
 export const wrapPageElement = ({ element, props }) => {
   // props provide same data to Layout as Page element will get
   // including location, data, etc - you don't need to pass it
-  console.log('PROPS SSR', props)
   const {
-    pageContext: { allAudioFiles, audioFile },
+    pageContext: { allAudioFiles },
   } = props
 
   return (
@@ -29,7 +28,8 @@ export const wrapPageElement = ({ element, props }) => {
             isPlaying: isPlaying,
             isValidAudioFileKey: isValidAudioFileKey,
             selectedKey: selectedKey,
-            key: selectedKey,
+            key: 'SSR',
+            isDisabled: true,
           })
         }
       </Player>

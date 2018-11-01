@@ -28,7 +28,8 @@ export const wrapPageElement = ({ element, props }) => {
             isPlaying: isPlaying,
             isValidAudioFileKey: isValidAudioFileKey,
             selectedKey: selectedKey,
-            key: selectedKey,
+            key: selectedKey || 'Browser',
+            isDisabled: false,
           })
         }
       </Player>

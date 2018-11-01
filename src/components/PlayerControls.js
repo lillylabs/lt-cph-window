@@ -37,19 +37,27 @@ const style = {
 
 const defaultState = {
   input: '',
+  isDisabled: true,
 }
 
 class PlayerControls extends Component {
   state = {
+    ...defaultState,
     input: this.props.selectedKey || defaultState.input,
   }
   inputElement = React.createRef()
   buttonElement = React.createRef()
 
   componentDidMount() {
-    if (!this.props.selectedKey) {
+    this.setState({
+      isDisabled: this.props.isDisabled,
+    })
+  }
+
+  componentDidUpdate() {
+    if (this.isEmptyInput() && !this.isDisabled()) {
       this.focusOnInput()
-    } else {
+    } else if (this.isPlaying()) {
       this.focusOnButton()
     }
   }
@@ -95,6 +103,14 @@ class PlayerControls extends Component {
     return isPlaying()
   }
 
+  isEmptyInput = () => {
+    return this.state.input === ''
+  }
+
+  isDisabled = () => {
+    return this.state.isDisabled
+  }
+
   render() {
     const playIcon = '&#9658'
     const stopIcon = '&#9724'
@@ -120,7 +136,7 @@ class PlayerControls extends Component {
           ref={this.inputElement}
           pattern="[0-9]*"
           type="text"
-          disabled={this.isPlaying()}
+          disabled={this.isDisabled() || this.isPlaying()}
           value={this.state.input}
           onChange={this.onChange}
         />
@@ -128,6 +144,7 @@ class PlayerControls extends Component {
           style={buttonStyle}
           ref={this.buttonElement}
           type="submit"
+          disabled={this.isDisabled()}
           dangerouslySetInnerHTML={{
             __html: buttonIcon,
           }}
