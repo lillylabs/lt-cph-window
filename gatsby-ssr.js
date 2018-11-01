@@ -21,15 +21,15 @@ export const wrapPageElement = ({ element, props }) => {
 
   return (
     <Layout {...props}>
-      <Player
-        selectedKey={audioFile && audioFile.key}
-        audioFiles={allAudioFiles}
-      >
-        {(play, stop, isValidFileKey) =>
+      <Player audioFiles={allAudioFiles}>
+        {({ play, pause, isPlaying, isValidAudioFileKey, selectedKey }) =>
           React.cloneElement(element, {
             play: play,
-            stop: stop,
-            isValidFileKey: isValidFileKey,
+            pause: pause,
+            isPlaying: isPlaying,
+            isValidAudioFileKey: isValidAudioFileKey,
+            selectedKey: selectedKey,
+            key: selectedKey,
           })
         }
       </Player>

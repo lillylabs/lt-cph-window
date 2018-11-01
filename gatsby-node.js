@@ -34,16 +34,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   // Create a page that lists all Pokémon.
   createPage({
     path: `/`,
-    component: require.resolve('./src/templates/audio.js'),
+    component: require.resolve('./src/templates/player.js'),
     context: { allAudioFiles },
-  })
-
-  // Create a page for each Pokémon.
-  allAudioFiles.forEach(audioFile => {
-    createPage({
-      path: `/${audioFile.key}/`,
-      component: require.resolve('./src/templates/audio.js'),
-      context: { allAudioFiles, audioFile },
-    })
   })
 }

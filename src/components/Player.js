@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 const defaultState = {
   playing: null,
+  selectedKey: null,
 }
 
 class Player extends Component {
@@ -24,7 +25,7 @@ class Player extends Component {
   }
 
   play = key => {
-    const { selectedKey } = this.props
+    const { selectedKey } = this.state
 
     this.pause()
 
@@ -44,16 +45,19 @@ class Player extends Component {
       case 'playing':
       case 'play':
         this.setState({
+          selectedKey: key,
           playing: true,
         })
         break
       case 'pause':
         this.setState({
+          selectedKey: key,
           playing: false,
         })
         break
       case 'ended':
         this.setState({
+          selectedKey: defaultState.selectedKey,
           playing: false,
         })
         break
@@ -72,6 +76,7 @@ class Player extends Component {
           pause: this.pause,
           isValidAudioFileKey: this.isValidAudioFileKey,
           isPlaying: this.isPlaying,
+          selectedKey: this.state.selectedKey,
         })}
 
         {audioFiles.map(audioFile => (

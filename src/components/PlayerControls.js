@@ -16,6 +16,9 @@ const style = {
     border: 'none',
     borderRadius: 5,
   },
+  inputDisabled: {
+    color: 'gray',
+  },
   button: {
     display: 'block',
     fontSize: '1em',
@@ -37,35 +40,29 @@ const defaultState = {
 }
 
 class PlayerControls extends Component {
-  state = defaultState
+  state = {
+    input: this.props.selectedKey || defaultState.input,
+  }
   inputElement = React.createRef()
   buttonElement = React.createRef()
 
   componentDidMount() {
-    const { selectedKey } = this.props
-
-    if (selectedKey) {
-      this.setState({
-        input: selectedKey,
-      })
-      this.focusOnButton()
-    } else {
+    if (!this.props.selectedKey) {
       this.focusOnInput()
+    } else {
+      this.focusOnButton()
     }
   }
 
   onSubmit = event => {
     event.preventDefault()
     const { input } = this.state
-    const { play, pause, navigate, selectedKey } = this.props
+    const { play, pause, selectedKey } = this.props
 
     if (this.isPlaying() && input === selectedKey) {
       pause()
     } else if (this.isValidInput(input)) {
       play(input)
-      if (input !== selectedKey) {
-        navigate(input)
-      }
     } else {
       this.focusOnInput()
     }
@@ -110,10 +107,16 @@ class PlayerControls extends Component {
           ...style.buttonInvalid,
         }
 
+    const inputStyle = !this.isPlaying()
+      ? style.input
+      : {
+          ...style.input,
+          ...style.inputDisabled,
+        }
     return (
       <form style={style.root} onSubmit={this.onSubmit}>
         <input
-          style={style.input}
+          style={inputStyle}
           ref={this.inputElement}
           pattern="[0-9]*"
           type="text"
