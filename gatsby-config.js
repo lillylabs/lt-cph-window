@@ -17,7 +17,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `audio`,
-        path: `${__dirname}/src/audio`,
+        path: `${__dirname}/content/audio`,
       },
     },
     {
