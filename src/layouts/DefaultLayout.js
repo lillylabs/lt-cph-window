@@ -4,6 +4,7 @@ import { StaticQuery, graphql } from 'gatsby'
 
 import RootLayout from './RootLayout'
 import Hero from '../components/Hero'
+import Nav from '../components/Nav'
 
 const DefaultLayout = ({ children }) => (
   <StaticQuery
@@ -12,15 +13,26 @@ const DefaultLayout = ({ children }) => (
         site {
           siteMetadata {
             title
+            nav {
+              label
+              path
+            }
           }
         }
       }
     `}
-    render={data => (
-      <RootLayout>
-        <Hero title={data.site.siteMetadata.title}>{children}</Hero>
-      </RootLayout>
-    )}
+    render={data => {
+      const title = data.site.siteMetadata.title
+      const nav = data.site.siteMetadata.nav
+      return (
+        <RootLayout>
+          <Hero title={title}>
+            {children}
+            <Nav items={nav} />
+          </Hero>
+        </RootLayout>
+      )
+    }}
   />
 )
 

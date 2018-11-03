@@ -4,6 +4,7 @@ module.exports = {
     description: '',
     keywords: '',
     lang: 'no',
+    nav: [{ label: 'Hjelp', path: 'hjelp' }, { label: 'Info', path: 'info' }],
   },
   plugins: [
     'gatsby-plugin-sass',
