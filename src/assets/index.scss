@@ -9,8 +9,12 @@ $body-background-color: $white-ter;
 
 @import '../../node_modules/bulma/bulma.sass';
 
+.container {
+  max-width: 32em;
+}
+
 .nav {
-  margin: 0.5em;
+  margin: 0.5em -0.5em;
   .nav-item {
     text-transform: lowercase;
     display: inline-block;
@@ -28,12 +32,7 @@ $body-background-color: $white-ter;
   align-items: center;
 }
 
-.fill-parent {
-  width: 100%;
-  height: 100%;
-}
-
-.center-content {
+.has-centered-content {
   display: flex;
   align-items: center;
   justify-content: center;
