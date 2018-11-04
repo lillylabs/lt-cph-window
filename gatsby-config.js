@@ -1,11 +1,15 @@
 module.exports = {
   siteMetadata: {
-    title: 'Ting vi synes er vakre',
+    title: 'Ting vi synes er spændende',
     description: '',
     keywords: '',
-    lang: 'no',
+    lang: 'da',
     mainNav: [{ label: 'Info', path: 'info' }],
     pageNav: [{ label: 'Tilbake', path: '/' }],
+    og: {
+      title: 'Ting vi synes er ?',
+      image: '/some.jpg',
+    },
   },
   plugins: [
     'gatsby-plugin-sass',
