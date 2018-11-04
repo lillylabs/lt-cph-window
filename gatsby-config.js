@@ -6,7 +6,7 @@ module.exports = {
     keywords: '',
     lang: 'da',
     mainNav: [{ label: 'Info', path: 'info' }],
-    pageNav: [{ label: 'Tilbake', path: '/' }],
+    pageNav: [{ label: 'Tilbage', path: '/' }],
   },
   plugins: [
     'gatsby-plugin-sass',

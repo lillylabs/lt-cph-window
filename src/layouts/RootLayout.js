@@ -13,10 +13,7 @@ const RootLayout = ({ children }) => (
           siteMetadata {
             title
             description
-            og {
-              title
-              image
-            }
+            image
           }
         }
       }
