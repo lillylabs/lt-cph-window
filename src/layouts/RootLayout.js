@@ -28,11 +28,11 @@ const RootLayout = ({ children }) => (
               content: data.site.siteMetadata.description,
             },
             {
-              name: 'og:title',
+              property: 'og:title',
               content: data.site.siteMetadata.title,
             },
             {
-              name: 'og:image',
+              property: 'og:image',
               content: data.site.siteMetadata.image,
             },
           ]}
