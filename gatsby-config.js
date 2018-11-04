@@ -2,14 +2,11 @@ module.exports = {
   siteMetadata: {
     title: 'Ting vi synes er spændende',
     description: '',
+    image: `${process.env.DEPLOY_PRIME_URL}/some.jpg`,
     keywords: '',
     lang: 'da',
     mainNav: [{ label: 'Info', path: 'info' }],
     pageNav: [{ label: 'Tilbake', path: '/' }],
-    og: {
-      title: 'Ting vi synes er ?',
-      image: `${process.env.DEPLOY_PRIME_URL}/some.jpg`,
-    },
   },
   plugins: [
     'gatsby-plugin-sass',

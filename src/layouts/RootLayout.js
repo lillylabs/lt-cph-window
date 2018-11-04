@@ -32,11 +32,11 @@ const RootLayout = ({ children }) => (
             },
             {
               name: 'og:title',
-              content: data.site.siteMetadata.og.title,
+              content: data.site.siteMetadata.title,
             },
             {
               name: 'og:image',
-              content: data.site.siteMetadata.og.image,
+              content: data.site.siteMetadata.image,
             },
           ]}
         >
