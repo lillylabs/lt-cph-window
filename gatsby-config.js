@@ -8,7 +8,7 @@ module.exports = {
     pageNav: [{ label: 'Tilbake', path: '/' }],
     og: {
       title: 'Ting vi synes er ?',
-      image: `${process.env.DEPLOY_URL}/some.jpg`,
+      image: `${process.env.DEPLOY_PRIME_URL}/some.jpg`,
     },
   },
   plugins: [
