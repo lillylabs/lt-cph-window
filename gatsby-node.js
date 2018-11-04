@@ -65,18 +65,21 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     `
   )
 
+  // Transform edges into an array of audio objects.
   const allAudioFiles = audioFilesQuery.edges.map(edge => ({
     key: keyFromAudioFileName(edge.node.name),
     src: edge.node.publicURL,
   }))
 
-  // Create a page that lists all Pokémon.
+  // Create a home page and add the array of audio objects to its context.
   createPage({
     path: `/`,
     component: require.resolve('./src/templates/player.js'),
     context: { allAudioFiles },
   })
 
+  // Loop through all the markdown nodes.
+  // Create a page for each and add the slug to its context.
   allMarkdownQuery.edges.map(edge => {
     createPage({
       path: edge.node.fields.slug,
